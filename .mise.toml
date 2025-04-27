@@ -1,0 +1,9 @@
+[tools]
+scaleway-cli="2.39.0"
+terraform="1.11.4"
+awscli="2.22.35"
+kubectl="1.33"
+helm="3.17.3"
+
+[env]
+_.source = { value = "./.envrc", tools = true }
