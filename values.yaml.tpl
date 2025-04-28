@@ -67,8 +67,6 @@ extraEnvVars:
 sso:
   enabled: false
 
-databaseUrl: "postgresql://open-webui:${openwebui_postgres_password}@postgresql:5432/open-webui"
-
 postgresql:
   enabled: true
   fullnameOverride: open-webui-postgres
