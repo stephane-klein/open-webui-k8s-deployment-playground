@@ -41,15 +41,7 @@ $ terraform apply
 ...
 ```
 
-```sh
-$ terraform output -raw kubeconfig > ./.kubeconfig
-```
-
 Check *kubectl* access:
-
-```sh
-$ kubectl get nodes
-```
 
 ```sh
 $ kubectl get nodes
@@ -70,4 +62,30 @@ open-webui/open-webui   6.2.0           0.6.4           Open WebUI: A User-Frien
 open-webui/open-webui   6.1.0           0.6.1           Open WebUI: A User-Friendly Web Interface for C...
 open-webui/open-webui   6.0.0           0.6.0           Open WebUI: A User-Friendly Web Interface for C...
 ...
+```
+
+Here's how to generate all installation manifests in `./manifests/` for analysis purpose before installation:
+
+```sh
+$ helm template -f values.yaml poc-openwebui open-webui/open-webui --version 6.4.0 --output-dir ./manifests
+```
+
+Perform the actual installation:
+
+```sh
+$ helm install -f values.yaml poc-openwebui open-webui/open-webui --version 6.4.0
+```
+
+Uninstallation:
+
+```sh
+$ helm uninstall poc-openwebui
+```
+
+## Helper scripts
+
+Check if Scaleway Generative API access works correctly:
+
+```sh
+$ ./scripts/check-generative-api-access.sh
 ```

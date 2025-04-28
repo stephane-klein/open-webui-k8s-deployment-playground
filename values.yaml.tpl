@@ -15,8 +15,8 @@ websocket:
 
 replicaCount: 1
 image:
-  repository: ghcr.io/open-webui/open-webui:0.6.5
-  tag: ""
+  repository: ghcr.io/open-webui/open-webui
+  tag: "0.6.5"
   pullPolicy: "IfNotPresent"
 
 livenessProbe:
@@ -58,7 +58,11 @@ persistence:
     bucket: "${s3_bucket}"
     keyPrefix: "${s3_key_prefix}"
 
-enableOpenaiApi: false
+enableOpenaiApi: true
+openaiBaseApiUrl: "https://api.scaleway.ai/${openwebui_project_id}/v1"
+extraEnvVars:
+  - name: OPENAI_API_KEY
+    value: ${scaleway_generative_api_secret_key}
 
 sso:
   enabled: false

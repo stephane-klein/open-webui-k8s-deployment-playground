@@ -34,6 +34,11 @@ variable "openwebui_postgres_password" {
     /* set by TF_VAR_openwebui_postgres_password variable env */
 }
 
+variable "scaleway_generative_api_secret_key" {
+    type    = string
+    /* set by TF_VAR_scaleway_generative_api_secret_key variable env */
+}
+
 /* public ssh key used in Virtual Instances */
 resource "scaleway_account_ssh_key" "stephane-klein-public-ssh-key-dev" {
     name        = "stephane-klein-public-ssh-key"
@@ -80,6 +85,11 @@ resource "scaleway_k8s_pool" "pool" {
 output "kubeconfig" {
     value       = scaleway_k8s_cluster.cluster.kubeconfig[0].config_file
     sensitive   = true
+}
+
+resource "local_file" "kubeconfig" {
+    content = scaleway_k8s_cluster.cluster.kubeconfig[0].config_file
+    filename = ".kubeconfig"
 }
 
 /* Begin section: Object Storage sklein-openwebui-poc-data */
@@ -131,7 +141,9 @@ resource "local_file" "helm_values" {
     s3_bucket       = split("/", scaleway_object_bucket.sklein_openwebui_poc_data.id)[1]
     s3_key_prefix   = "openwebui"
 
+    openwebui_project_id = var.openwebui_project_id
     openwebui_postgres_password = var.openwebui_postgres_password
+    scaleway_generative_api_secret_key = var.scaleway_generative_api_secret_key
   })
   filename = "values.yaml"
 }
